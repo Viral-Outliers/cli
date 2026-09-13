@@ -12,7 +12,10 @@
   "engines": {
     "node": ">=20"
   },
-  "repository": "github:Viral-Outliers/cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Viral-Outliers/cli.git"
+  },
   "homepage": "https://viraloutliers.com/docs/cli",
   "keywords": [
     "viral-outliers",
