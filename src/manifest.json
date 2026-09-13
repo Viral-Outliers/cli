@@ -1,0 +1,966 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-13T08:01:28.455Z",
+  "apiBase": "https://viraloutliers.com",
+  "envVar": "VIRAL_OUTLIERS_API_KEY",
+  "commands": [
+    {
+      "name": "search-outliers",
+      "key": "search_outliers",
+      "title": "Search Viral Outlier Posts",
+      "summary": "Find statistically overperforming (\"outlier\") social media posts across TikTok, Instagram and YouTube with rich filters.",
+      "description": "Search a continuously-crawled database of social media posts ranked by outlier score: how strongly a post overperforms the account's own baseline. Filter by platform, keyword, exact creator handle, content type, an outlier-score band (min/max), a view band (min/max), a follower band (min/max), an engagement-rate band (min/max) and time window; sort by outlier score, views, likes, engagement or recency. Returns post metadata, stats and thumbnails. Use this to find proven viral formats in any niche before creating content. Results may include deleted posts (deleted_at set) and posts from deactivated profiles (profile is_active=false), these are kept for their thumbnails and format ideas, with stats frozen at deletion; filter on deleted_at / is_active if you only want live content.",
+      "method": "POST",
+      "path": "/api/v1/search/content",
+      "cost": 1,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "query",
+          "flag": "query",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Keyword search over captions/titles/handles."
+        },
+        {
+          "name": "platforms",
+          "flag": "platforms",
+          "type": "string[]",
+          "inPath": false,
+          "required": false,
+          "description": "\"tiktok\" | \"instagram\" | \"youtube\"."
+        },
+        {
+          "name": "handle",
+          "flag": "handle",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Exact creator handle (without @). Pins results to one account; takes precedence over the free-text query."
+        },
+        {
+          "name": "watchlistId",
+          "flag": "watchlist-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Scope the search to the creators in one of your watchlists (id from list_watchlists / create_watchlist). Combine with any other filter."
+        },
+        {
+          "name": "contentTypes",
+          "flag": "content-types",
+          "type": "string[]",
+          "inPath": false,
+          "required": false,
+          "description": "Platform content types (e.g. reel, short, slideshow)."
+        },
+        {
+          "name": "minOutlierScore",
+          "flag": "min-outlier-score",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Only posts overperforming their account baseline by at least this factor."
+        },
+        {
+          "name": "maxOutlierScore",
+          "flag": "max-outlier-score",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Upper bound on outlier score, e.g. exclude extreme one-off spikes."
+        },
+        {
+          "name": "minViews",
+          "flag": "min-views",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Minimum view count."
+        },
+        {
+          "name": "maxViews",
+          "flag": "max-views",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Maximum view count."
+        },
+        {
+          "name": "minFollowers",
+          "flag": "min-followers",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Floor on account size, e.g. exclude tiny/brand-new accounts."
+        },
+        {
+          "name": "maxFollowers",
+          "flag": "max-followers",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Cap account size, find small accounts with huge posts."
+        },
+        {
+          "name": "minEngagementRate",
+          "flag": "min-engagement-rate",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Minimum engagement rate, as a fraction of views: (likes+comments)/views. So 0.04 means 4%."
+        },
+        {
+          "name": "maxEngagementRate",
+          "flag": "max-engagement-rate",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Maximum engagement rate, same fraction scale (0.04 = 4%)."
+        },
+        {
+          "name": "timeFrame",
+          "flag": "time-frame",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "\"one_week\" | \"one_month\" | … | \"all_time\"."
+        },
+        {
+          "name": "sortBy",
+          "flag": "sort-by",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Sort key: outlier/views/likes/date/engagement, each _desc or _asc (default outlier_desc)."
+        },
+        {
+          "name": "page",
+          "flag": "page",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Page number, 1-based."
+        },
+        {
+          "name": "pageSize",
+          "flag": "page-size",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Results per page, clamped to 1–100."
+        }
+      ]
+    },
+    {
+      "name": "search-profiles",
+      "key": "search_profiles",
+      "title": "Search Social Media Profiles",
+      "summary": "Find tracked creator profiles by name/handle across platforms, with follower and performance stats.",
+      "description": "Search tracked social media profiles by handle or name, filtered by platform. Returns profile metadata, follower counts and average performance stats. Use it to resolve a handle to a profile id before fetching stats or posts, or to discover creators in the database. Results may include deactivated profiles (is_active=false), e.g. an account that was renamed or went private, retained with frozen stats; filter on is_active if you only want live accounts. Note a creator who changed handles can appear as two rows (old deactivated + new active).",
+      "method": "POST",
+      "path": "/api/v1/search/profiles",
+      "cost": 1,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "query",
+          "flag": "query",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Handle or name fragment."
+        },
+        {
+          "name": "platforms",
+          "flag": "platforms",
+          "type": "string[]",
+          "inPath": false,
+          "required": false,
+          "description": "\"tiktok\" | \"instagram\" | \"youtube\"."
+        },
+        {
+          "name": "page",
+          "flag": "page",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Page number, 1-based."
+        },
+        {
+          "name": "pageSize",
+          "flag": "page-size",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Results per page, clamped to 1–100."
+        }
+      ]
+    },
+    {
+      "name": "get-post",
+      "key": "get_post",
+      "title": "Get Post Details",
+      "summary": "Full data for one post: stats, outlier scores across seven time windows, plus cached transcript and visual analysis when available.",
+      "description": "Fetch a single post by id: views, likes, comments, engagement rate, outlier scores for seven time windows, thumbnail and the owning profile. When a transcript or visual analysis already exists it is included at no extra cost. The visual analysis is a structured scene-by-scene breakdown (per-scene timing, on-screen text, visual elements and a recreation note) plus an overall-style summary. Request new enrichment via request_transcript (speech / on-screen text) or request_visual_analysis (scene breakdown). Use after search_outliers to deep-dive a result.",
+      "method": "GET",
+      "path": "/api/v1/posts/{postId}",
+      "cost": 1,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "postId",
+          "flag": "post-id",
+          "type": "string",
+          "inPath": true,
+          "required": true,
+          "description": "Internal post id from search results."
+        },
+        {
+          "name": "includeTranscript",
+          "flag": "include-transcript",
+          "type": "boolean",
+          "inPath": false,
+          "required": false,
+          "description": "Attach the cached transcript when one exists (default true)."
+        },
+        {
+          "name": "includeVisualAnalysis",
+          "flag": "include-visual-analysis",
+          "type": "boolean",
+          "inPath": false,
+          "required": false,
+          "description": "Attach cached scene/visual analysis when it exists (default true)."
+        }
+      ]
+    },
+    {
+      "name": "get-profile",
+      "key": "get_profile",
+      "title": "Get Profile Stats",
+      "summary": "Follower counts, average performance baselines and recent posts for one tracked profile.",
+      "description": "Fetch one tracked profile by id: follower count, bio, average views/likes/engagement across time windows, and recent tracked posts. The averages are the baseline outlier scores are computed against. Use search_profiles first to resolve a handle to an id.",
+      "method": "GET",
+      "path": "/api/v1/profiles/{profileId}",
+      "cost": 1,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "profileId",
+          "flag": "profile-id",
+          "type": "string",
+          "inPath": true,
+          "required": true,
+          "description": "Profile id from search_profiles or search results."
+        }
+      ]
+    },
+    {
+      "name": "request-transcript",
+      "key": "request_transcript",
+      "title": "Transcribe a Post",
+      "summary": "Queue AI speech transcription for any tracked video post; poll the job, then fetch via get_post.",
+      "description": "Queues AI transcription of the spoken audio for a video post. Accepts a public post URL or an internal post id. Asynchronous: returns a job reference to poll with get_job_status; once complete the transcript is attached to get_post responses. Credits are charged on queueing and automatically refunded if the job fails. Image slideshows and photo posts have no audio and are rejected up front with no charge: use request_visual_analysis for their on-screen text instead.",
+      "method": "POST",
+      "path": "/api/v1/transcriptions",
+      "cost": 10,
+      "isAsync": true,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "url",
+          "flag": "url",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Public post URL (e.g. a TikTok/Reel/Short link). The easy path when you have a link."
+        },
+        {
+          "name": "postId",
+          "flag": "post-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Internal post id (from search results). Provide this or url."
+        }
+      ]
+    },
+    {
+      "name": "request-visual-analysis",
+      "key": "request_visual_analysis",
+      "title": "Analyze a Post Visually",
+      "summary": "Queue AI scene-by-scene visual analysis (on-screen text, shot breakdown, editing style) for any tracked post; poll the job, then fetch via get_post.",
+      "description": "Queues a structured visual analysis for a post: for a video, a scene-by-scene breakdown (per-scene timing, scene type, on-screen text, visual elements and a recreation note) plus an overall-style summary (color palette, text style, editing pace); for an image slideshow, per-slide text and visual descriptions. Accepts a public post URL or an internal post id. Asynchronous: returns a job reference to poll with get_job_status; once complete the analysis is attached to get_post responses (includeVisualAnalysis). Credits are charged on queueing and automatically refunded if the job fails. This is the visual twin of request_transcript.",
+      "method": "POST",
+      "path": "/api/v1/visual-analysis",
+      "cost": 10,
+      "isAsync": true,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "url",
+          "flag": "url",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Public post URL (e.g. a TikTok/Reel/Short link). The easy path when you have a link."
+        },
+        {
+          "name": "postId",
+          "flag": "post-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Internal post id (from search results). Provide this or url."
+        }
+      ]
+    },
+    {
+      "name": "crawl-profile",
+      "key": "crawl_profile",
+      "title": "Crawl a New Profile",
+      "summary": "Add any public TikTok, Instagram or YouTube profile to the tracked database on demand.",
+      "description": "Submits a public profile for crawling: profile metadata plus its recent posts, stats and thumbnails, after which it stays tracked and appears in searches. Asynchronous. Returns a job reference for get_job_status. If the profile is already tracked, this returns immediately without charging a full crawl. Credits are refunded automatically when a crawl fails.",
+      "method": "POST",
+      "path": "/api/v1/crawls",
+      "cost": 40,
+      "isAsync": true,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "platform",
+          "flag": "platform",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "\"tiktok\" | \"instagram\" | \"youtube\"."
+        },
+        {
+          "name": "handle",
+          "flag": "handle",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Public handle, without @."
+        }
+      ]
+    },
+    {
+      "name": "get-job-status",
+      "key": "get_job_status",
+      "title": "Check Job Status",
+      "summary": "Free polling endpoint for asynchronous jobs (crawls, transcriptions).",
+      "description": "Returns the status of an asynchronous job started by crawl_profile or request_transcript: pending, processing, completed or failed. Free to call: polling must never cost credits. Poll every 10–30 seconds; jobs typically complete within a few minutes.",
+      "method": "GET",
+      "path": "/api/v1/jobs/{jobRef}",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "jobRef",
+          "flag": "job-ref",
+          "type": "string",
+          "inPath": true,
+          "required": true,
+          "description": "Job reference returned by an async skill."
+        }
+      ]
+    },
+    {
+      "name": "get-credit-balance",
+      "key": "get_credit_balance",
+      "title": "Check Credit Balance",
+      "summary": "Free endpoint returning your current credit balance.",
+      "description": "Returns the current API credit balance for the authenticated account, plus the automatic top-up state of the account (autoTopup: configured, enabled, pack, monthly charge cap and count, last error) so an agent can tell whether a zero balance is a hard stop or refills itself on the next billable call. Free to call. Agents should check the balance before starting large batch jobs and surface \"insufficient_credits\" errors to the user with a link to top up.",
+      "method": "GET",
+      "path": "/api/v1/credits",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": []
+    },
+    {
+      "name": "get-pricing",
+      "key": "get_pricing",
+      "title": "Get API Pricing",
+      "summary": "Free, unauthenticated, machine-readable price list: per-skill credit costs, credit packs and the USD-per-credit rate.",
+      "description": "Returns the current price list as structured JSON: the USD value of one credit, every skill with its credit cost and REST route, the one-time credit packs, and the monthly plan allowances. Free and unauthenticated, so an integrator can render live costs to their own users without hardcoding prices or holding an API key. Billable calls also return X-Credits-Charged and X-Credits-Balance response headers, so a reseller can attribute spend per call.",
+      "method": "GET",
+      "path": "/api/v1/pricing",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": false,
+      "readOnly": true,
+      "params": []
+    },
+    {
+      "name": "compare-profiles",
+      "key": "compare_profiles",
+      "title": "Compare Profiles Head-to-Head",
+      "summary": "Benchmark 2–5 tracked creators side by side: followers, average views/likes/engagement, and who wins each metric.",
+      "description": "Compares 2–5 tracked profiles (by profile id or platform+handle) and returns each one's stats (follower count, average views/likes across time windows, engagement rate) plus a computed ranking flagging the top performer by followers and by engagement. Pure lookup, fast. Unresolved profiles come back in a notFound list rather than failing the call.",
+      "method": "POST",
+      "path": "/api/v1/profiles/compare",
+      "cost": 2,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "profileIds",
+          "flag": "profile-ids",
+          "type": "string[]",
+          "inPath": false,
+          "required": false,
+          "description": "Profile ids to compare (from search)."
+        },
+        {
+          "name": "handles",
+          "flag": "handles",
+          "type": "object[]",
+          "inPath": false,
+          "required": false,
+          "description": "Handle pairs to resolve, e.g. [{\"platform\":\"tiktok\",\"handle\":\"x\"}]. 2–5 profiles total across both fields."
+        }
+      ]
+    },
+    {
+      "name": "niche-trends",
+      "key": "niche_trends",
+      "title": "What's Trending in a Niche",
+      "summary": "The posts spiking in a niche right now, plus which formats and creators are driving it.",
+      "description": "Returns the top overperforming posts in a niche over a recent window (default one week), plus a breakdown of which content types are driving the trend and which creators are represented. Filter by keyword and platform. Great as the first call in a content-research loop: see what's hot, then deep-dive or remix the winners.",
+      "method": "POST",
+      "path": "/api/v1/trends",
+      "cost": 2,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "query",
+          "flag": "query",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Niche keyword over captions/titles/handles."
+        },
+        {
+          "name": "platforms",
+          "flag": "platforms",
+          "type": "string[]",
+          "inPath": false,
+          "required": false,
+          "description": "\"tiktok\" | \"instagram\" | \"youtube\"."
+        },
+        {
+          "name": "timeFrame",
+          "flag": "time-frame",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "\"one_week\" (default) up to \"all_time\"."
+        },
+        {
+          "name": "limit",
+          "flag": "limit",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Top posts to return, clamped 1–50 (default 20)."
+        }
+      ]
+    },
+    {
+      "name": "resolve-post-url",
+      "key": "resolve_post_url",
+      "title": "Resolve a Post URL",
+      "summary": "Turn a public TikTok/Instagram/YouTube post URL into the internal post id every other skill uses.",
+      "description": "Takes a public post URL (TikTok video/photo, Instagram post/reel, YouTube video/short) and resolves it to the tracked post: the entry point when your input is a link. found:true returns the postId for get_post, request_transcript, download_post_media and remix_post. found:false tells you whether the whole profile is untracked (call crawl_profile) or just this post. Note that remix_post accepts an untracked URL directly and ingests it itself, so for a remix you can skip this lookup. TikTok/Instagram short links (vm.tiktok.com, /share/) must be expanded to the canonical URL first.",
+      "method": "POST",
+      "path": "/api/v1/posts/resolve",
+      "cost": 1,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "url",
+          "flag": "url",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Public post URL (canonical form, not a short link)."
+        }
+      ]
+    },
+    {
+      "name": "download-post-media",
+      "key": "download_post_media",
+      "title": "Download Post Media",
+      "summary": "Get direct media URLs (video or slideshow images) for a tracked post; fetched on demand when not stored.",
+      "description": "Returns direct media URLs for a tracked post, the video file, or slideshow images with positions. Accepts a public post URL or an internal post id. When media is not stored yet it queues an on-demand fetch and returns a jobRef to poll (typically ready within ~90 seconds); call again once complete. Platform CDN URLs can expire, so download promptly. YouTube currently returns the thumbnail image. You are responsible for using downloaded media in line with the platforms' terms and applicable law.",
+      "method": "POST",
+      "path": "/api/v1/posts/media",
+      "cost": 3,
+      "isAsync": true,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "url",
+          "flag": "url",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Public post URL. The easy path when you have a link."
+        },
+        {
+          "name": "postId",
+          "flag": "post-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Internal post id. Provide this or url."
+        }
+      ]
+    },
+    {
+      "name": "remix-post",
+      "key": "remix_post",
+      "title": "Remix a Post to Your Niche",
+      "summary": "Turn any public viral post into a niche-adapted content idea: rewritten hook, script segments, a why-it-went-viral analysis and an execution checklist.",
+      "description": "Takes a post (pass a public post URL or an internal post id) plus a target niche/brand description, and produces an adapted content idea: rewritten title and description, segment-by-segment script, a short analysis of why the original went viral, and an execution checklist, the proven format transplanted into your niche. The URL does NOT need to be tracked: an unknown post is fetched and ingested automatically as part of the job, so any public TikTok/Instagram/YouTube link works with no crawl_profile round-trip. Asynchronous (~1–3 minutes, a few minutes longer for an untracked URL): returns a jobRef; poll get_remix_result until its \"remix\" field is populated (it returns status + result together). For video posts the remix auto-generates the transcript and visual analysis first, so quality no longer depends on you transcribing beforehand. Credits are refunded automatically if the remix fails.",
+      "method": "POST",
+      "path": "/api/v1/remixes",
+      "cost": 20,
+      "isAsync": true,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "url",
+          "flag": "url",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Public post URL. The easy path when a user hands you a link they saw. Does not need to be tracked: unknown posts are ingested automatically."
+        },
+        {
+          "name": "postId",
+          "flag": "post-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Internal post id (from search results). Provide this or url."
+        },
+        {
+          "name": "targetNiche",
+          "flag": "target-niche",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Your niche/brand/audience, 5–500 chars (e.g. \"B2B SaaS founders selling analytics tools\")."
+        },
+        {
+          "name": "tone",
+          "flag": "tone",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Preferred tone of voice for the adaptation."
+        }
+      ]
+    },
+    {
+      "name": "get-remix-result",
+      "key": "get_remix_result",
+      "title": "Fetch a Finished Remix",
+      "summary": "Free: fetch the finished output of a remix_post job.",
+      "description": "Returns the finished remix for a remix_post job: adapted title, description, script segments, why-it-went-viral analysis (whyItWorks) and checklist. Free to call. Poll get_job_status until the job reports completed, then fetch here. The result is also viewable in the web app under Content Ideas.",
+      "method": "GET",
+      "path": "/api/v1/remixes/{jobRef}",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "jobRef",
+          "flag": "job-ref",
+          "type": "string",
+          "inPath": true,
+          "required": true,
+          "description": "The pipeline jobRef returned by remix_post (URL-encode it)."
+        }
+      ]
+    },
+    {
+      "name": "create-topup-link",
+      "key": "create_topup_link",
+      "title": "Create a Credit Top-Up Link",
+      "summary": "Out of credits? Get a ready-to-pay Stripe link for a credit pack to hand to the account owner. Free.",
+      "description": "Creates a Stripe Checkout link for a credit pack, so when the balance runs out mid-task you can hand the account owner a one-click payment link instead of instructions. Credits land within seconds of payment. Free to call (5 links/hour); links are valid for 24 hours. Packs: see the pricing table in the docs.",
+      "method": "POST",
+      "path": "/api/v1/credits/topup",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "packId",
+          "flag": "pack-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "One of: pack_s, pack_m, pack_l."
+        }
+      ]
+    },
+    {
+      "name": "report-issue",
+      "key": "report_issue",
+      "title": "Report an Issue",
+      "summary": "Hit a bug, wrong data, or a missing capability? Tell us. It is free, and you can ask to be notified when it is fixed.",
+      "description": "Report a problem with any skill: an error you keep hitting, data that looks wrong or stale, or something you needed that the API could not do. Free: never spend credits on telling us something is broken. Include what you called, what you expected and what happened. Set wantsUpdate to true to get an email on your account address when the issue is resolved. Reports go straight to the team.",
+      "method": "POST",
+      "path": "/api/v1/feedback",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "message",
+          "flag": "message",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "What you called, what you expected, what happened (10–2000 chars)."
+        },
+        {
+          "name": "skill",
+          "flag": "skill",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Which skill the issue is about, when known."
+        },
+        {
+          "name": "wantsUpdate",
+          "flag": "wants-update",
+          "type": "boolean",
+          "inPath": false,
+          "required": false,
+          "description": "true = email the account address when resolved."
+        }
+      ]
+    },
+    {
+      "name": "get-trending-outliers",
+      "key": "get_trending_outliers",
+      "title": "Trending Viral Outliers (Free)",
+      "summary": "Free, no-auth teaser: the current top trending outlier posts across platforms.",
+      "description": "Returns the current top trending outlier posts across TikTok, Instagram and YouTube, deduplicated to one per creator. Free and unauthenticated (rate-limited per IP; cached ~2 hours). A taste of the database. For filtered search, transcripts and on-demand crawling, create an API key.",
+      "method": "GET",
+      "path": "/api/v1/trending",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": false,
+      "readOnly": true,
+      "params": []
+    },
+    {
+      "name": "track-profile",
+      "key": "track_profile",
+      "title": "Monitor a Profile",
+      "summary": "Keep a TikTok, Instagram or YouTube profile fresh on a schedule (daily, every 3 days or weekly) and pull its new posts.",
+      "description": "Starts monitoring a profile so it is automatically re-crawled at a cadence you choose (daily, every_3_days or weekly), keeping its posts and stats fresh without you polling crawl_profile. Identify the profile by profileId, platform+handle, or a public profile/post URL. Managing monitoring is free; each scheduled refresh crawl costs credits (10 per refresh) and monitoring pauses itself if your balance runs out, then resumes when you top up. The profile must already be in the database; crawl_profile it first if it is not. Calling again on an already-monitored profile just updates the cadence. Pull the new posts with get_tracked_updates.",
+      "method": "POST",
+      "path": "/api/v1/tracking",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "profileId",
+          "flag": "profile-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Internal profile id from search results."
+        },
+        {
+          "name": "platform",
+          "flag": "platform",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "\"tiktok\" | \"instagram\" | \"youtube\" (pair with handle)."
+        },
+        {
+          "name": "handle",
+          "flag": "handle",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Public handle, without @ (pair with platform)."
+        },
+        {
+          "name": "url",
+          "flag": "url",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Public profile or post URL identifying the profile."
+        },
+        {
+          "name": "frequency",
+          "flag": "frequency",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "\"daily\" | \"every_3_days\" | \"weekly\" (default weekly)."
+        }
+      ]
+    },
+    {
+      "name": "untrack-profile",
+      "key": "untrack_profile",
+      "title": "Stop Monitoring a Profile",
+      "summary": "Stop the scheduled refresh crawls for a monitored profile. Free.",
+      "description": "Stops monitoring a profile: no further scheduled refresh crawls are charged for it. Free to call. Pass the internal profileId (from list_tracked_profiles or search results). The profile and its already-crawled posts stay in the database and searchable; only the recurring refresh stops. Returns not_found if the profile is not currently being monitored.",
+      "method": "DELETE",
+      "path": "/api/v1/tracking",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "profileId",
+          "flag": "profile-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Internal profile id to stop monitoring (query ?profileId= or JSON body)."
+        }
+      ]
+    },
+    {
+      "name": "list-tracked-profiles",
+      "key": "list_tracked_profiles",
+      "title": "List Monitored Profiles",
+      "summary": "See every profile you are monitoring, its cadence, next refresh time and whether it is paused. Free.",
+      "description": "Returns every profile you are currently monitoring, with its handle, platform, follower count, refresh cadence, next scheduled crawl time, when it was last checked for updates, and any paused reason (e.g. paused for insufficient credits). Free to call. Use it to audit what is being refreshed and what it is costing, or to grab a profileId for untrack_profile.",
+      "method": "GET",
+      "path": "/api/v1/tracking",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": []
+    },
+    {
+      "name": "create-watchlist",
+      "key": "create_watchlist",
+      "title": "Create a Watchlist",
+      "summary": "Create a named set of creators you can then search with a single watchlistId filter. Free.",
+      "description": "Creates an empty watchlist (a named set of creators) and returns its watchlistId. Fill it with add_watchlist_profiles, then pass the id to search_outliers as watchlistId to scope any search to exactly those accounts. Watchlists created here appear in the owner's web app too. Free to call. Watchlists count against a workspace allowance that comes from a subscription or is earned from API spend (every API key holder starts with 1); an over-limit call explains what unlocks more.",
+      "method": "POST",
+      "path": "/api/v1/watchlists",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "name",
+          "flag": "name",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Display name, 1-80 characters (e.g. \"Fitness competitors\")."
+        },
+        {
+          "name": "notes",
+          "flag": "notes",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Optional free-text notes, up to 500 characters."
+        }
+      ]
+    },
+    {
+      "name": "list-watchlists",
+      "key": "list_watchlists",
+      "title": "List Your Watchlists",
+      "summary": "All your watchlists with their ids and profile counts, so an agent can pick one to search. Free.",
+      "description": "Returns every watchlist on the account (both agent-created and web-app-created) with its watchlistId, name, notes, profile count and last-updated time. Free to call. Use it to recall an id for search_outliers, add_watchlist_profiles or get_watchlist.",
+      "method": "GET",
+      "path": "/api/v1/watchlists",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": []
+    },
+    {
+      "name": "get-watchlist",
+      "key": "get_watchlist",
+      "title": "Get a Watchlist",
+      "summary": "One watchlist with its member creators (ids, handles, platforms, follower counts). Free.",
+      "description": "Returns a single watchlist by watchlistId with every member profile: profileId, handle, platform and follower count. Free to call. Use it to review or explain a list before searching it, or to pick profileIds for remove_watchlist_profiles.",
+      "method": "GET",
+      "path": "/api/v1/watchlists/{watchlistId}",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "watchlistId",
+          "flag": "watchlist-id",
+          "type": "string",
+          "inPath": true,
+          "required": true,
+          "description": "Watchlist id from list_watchlists or create_watchlist."
+        }
+      ]
+    },
+    {
+      "name": "add-watchlist-profiles",
+      "key": "add_watchlist_profiles",
+      "title": "Add Creators to a Watchlist",
+      "summary": "Add up to 25 tracked creators to a watchlist per call, by profile id or by platform+handle. Free; counts against your followed-profiles allowance.",
+      "description": "Adds creators to one of your watchlists. Pass profileIds (from search_profiles or any search result) and/or handles as {platform, handle} pairs; up to 25 per call. Creators must already be tracked (crawl_profile first if not; unresolved ones come back in notFound). Already-present creators are reported, not duplicated. Free to call. Each added creator counts against your followed-profiles allowance, which comes from a subscription or is earned from API spend; an over-limit call explains what unlocks more.",
+      "method": "POST",
+      "path": "/api/v1/watchlists/profiles",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "watchlistId",
+          "flag": "watchlist-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Target watchlist id."
+        },
+        {
+          "name": "profileIds",
+          "flag": "profile-ids",
+          "type": "string[]",
+          "inPath": false,
+          "required": false,
+          "description": "Internal profile ids to add."
+        },
+        {
+          "name": "handles",
+          "flag": "handles",
+          "type": "object[]",
+          "inPath": false,
+          "required": false,
+          "description": "Handle pairs to resolve and add, e.g. [{\"platform\":\"tiktok\",\"handle\":\"x\"}]. profileIds + handles ≤ 25 per call."
+        }
+      ]
+    },
+    {
+      "name": "remove-watchlist-profiles",
+      "key": "remove_watchlist_profiles",
+      "title": "Remove Creators from a Watchlist",
+      "summary": "Remove creators from a watchlist by profile id. Free.",
+      "description": "Removes the given profileIds from a watchlist and returns how many were removed plus the new profile count. Free to call. Use get_watchlist to find the profileIds.",
+      "method": "DELETE",
+      "path": "/api/v1/watchlists/profiles",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "watchlistId",
+          "flag": "watchlist-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Watchlist id."
+        },
+        {
+          "name": "profileIds",
+          "flag": "profile-ids",
+          "type": "string[]",
+          "inPath": false,
+          "required": true,
+          "description": "Internal profile ids to remove."
+        }
+      ]
+    },
+    {
+      "name": "delete-watchlist",
+      "key": "delete_watchlist",
+      "title": "Delete a Watchlist",
+      "summary": "Delete one of your watchlists and its memberships, freeing the allowance it used. Free.",
+      "description": "Deletes one of your watchlists including its memberships, and frees the watchlist slot and followed-profile slots it used. Free to call. Works for lists created through the API or in the web app; only the owner can delete a list.",
+      "method": "DELETE",
+      "path": "/api/v1/watchlists",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "watchlistId",
+          "flag": "watchlist-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Watchlist id (query string or JSON body)."
+        }
+      ]
+    },
+    {
+      "name": "get-tracked-updates",
+      "key": "get_tracked_updates",
+      "title": "Get New Posts From Monitored Profiles",
+      "summary": "Pull the posts first seen since your last check across all monitored profiles, then advance the cursor. Free.",
+      "description": "Returns the posts newly discovered (first stored by our crawler) since your last check, across all the profiles you are monitoring. Free to call. Each call advances a per-profile cursor, so a subsequent call only returns posts crawled after it (a feed, not a re-scan). New posts arrive when a profile's scheduled refresh crawl runs, on the cadence set by track_profile. Results are the same flattened post shape as search_outliers (stats, thumbnail, handle). Total posts are capped (limit 1–100, default 50).",
+      "method": "GET",
+      "path": "/api/v1/tracking/updates",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "limit",
+          "flag": "limit",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Max posts to return, clamped 1–100 (default 50)."
+        }
+      ]
+    }
+  ]
+}

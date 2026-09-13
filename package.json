@@ -1,0 +1,36 @@
+{
+  "name": "viral-outliers",
+  "version": "0.1.0",
+  "description": "Official command-line tool for the Viral Outliers API: search viral outlier posts, transcribe and analyze them, crawl profiles, remix winners into your niche.",
+  "license": "MIT",
+  "bin": {
+    "viral-outliers": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": "github:Viral-Outliers/cli",
+  "homepage": "https://viraloutliers.com/docs/cli",
+  "keywords": [
+    "viral-outliers",
+    "tiktok",
+    "instagram",
+    "youtube",
+    "social-media",
+    "cli",
+    "outliers"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}
