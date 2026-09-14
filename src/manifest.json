@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T08:01:28.455Z",
+  "generatedAt": "2026-09-14T07:37:35.235Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -398,8 +398,8 @@
       "name": "get-pricing",
       "key": "get_pricing",
       "title": "Get API Pricing",
-      "summary": "Free, unauthenticated, machine-readable price list: per-skill credit costs, credit packs and the USD-per-credit rate.",
-      "description": "Returns the current price list as structured JSON: the USD value of one credit, every skill with its credit cost and REST route, the one-time credit packs, and the monthly plan allowances. Free and unauthenticated, so an integrator can render live costs to their own users without hardcoding prices or holding an API key. Billable calls also return X-Credits-Charged and X-Credits-Balance response headers, so a reseller can attribute spend per call.",
+      "summary": "Free, unauthenticated, machine-readable price list: per-skill credit costs, credit packs, subscription plans with their included API credits, and the USD-per-credit rate.",
+      "description": "Returns the current price list as structured JSON: the USD value of one credit, every skill with its credit cost and REST route, the one-time credit packs, and every subscription plan with its monthly and yearly price, included API credits per month, and watchlist limits. Free and unauthenticated, so an integrator can render live costs to their own users, or an agent can compare subscribing against buying packs, without hardcoding prices or holding an API key. Billable calls also return X-Credits-Charged and X-Credits-Balance response headers, so a reseller can attribute spend per call.",
       "method": "GET",
       "path": "/api/v1/pricing",
       "cost": 0,
