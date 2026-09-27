@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-26T06:58:20.002Z",
+  "generatedAt": "2026-09-27T02:48:33.601Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -963,11 +963,159 @@
       ]
     },
     {
+      "name": "create-viral-alert",
+      "key": "create_viral_alert",
+      "title": "Email Me When a Profile Goes Viral",
+      "summary": "Watch a competitor or creator and get an email when one of their posts scores above an outlier threshold you set. Free to set up; 5 credits per email sent.",
+      "description": "Creates a viral alert: we watch a TikTok, Instagram or YouTube profile and email the address you give when it publishes a post whose outlier score (views divided by the profile's own average) reaches minOutlierScore (default 3, minimum 1.5) within postAgeDays of posting (default 7, max 30). Identify the profile by profileId, platform+handle, or a public URL; it must already be in the database (crawl_profile it first if not). Setting up, listing and deleting alerts is free. Two things cost credits: the refresh crawl that keeps the profile fresh (10 credits per run, daily by default, started for you if you are not already monitoring the profile with track_profile) and each alert email actually sent (5 credits). Limits: one alert email per destination address per day, sent around sendHour in your timezone (defaults 9, UTC) and bundling every alert that fired; 3 emails per alert in total, after which the alert ends; expiresInDays (default 30, max 90) ends it regardless; 25 active alerts per account. A post can trigger an alert only once. Your account email needs no confirmation; any other address receives a confirmation link first and nothing is sent until it is clicked. Every alert email has its own stop link. Calling again for the same profile and address updates the settings instead of creating a duplicate.",
+      "method": "POST",
+      "path": "/api/v1/alerts",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "email",
+          "flag": "email",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Destination address. Your account email needs no confirmation; any other address gets a confirmation link first."
+        },
+        {
+          "name": "profileId",
+          "flag": "profile-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Internal profile id from search results."
+        },
+        {
+          "name": "platform",
+          "flag": "platform",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "\"tiktok\" | \"instagram\" | \"youtube\" (pair with handle)."
+        },
+        {
+          "name": "handle",
+          "flag": "handle",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Public handle, without @ (pair with platform)."
+        },
+        {
+          "name": "url",
+          "flag": "url",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Public profile or post URL identifying the profile."
+        },
+        {
+          "name": "minOutlierScore",
+          "flag": "min-outlier-score",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Trigger at this outlier score or above (default 3, minimum 1.5)."
+        },
+        {
+          "name": "scoreWindow",
+          "flag": "score-window",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Profile average the score is measured against: one_week, two_weeks, one_month, three_months (default), six_months, one_year, all_time."
+        },
+        {
+          "name": "postAgeDays",
+          "flag": "post-age-days",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Only posts published within this many days can trigger (default 7, max 30)."
+        },
+        {
+          "name": "expiresInDays",
+          "flag": "expires-in-days",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "The alert ends after this many days (default 30, max 90)."
+        },
+        {
+          "name": "sendHour",
+          "flag": "send-hour",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Preferred hour of day for the email, 0-23 (default 9)."
+        },
+        {
+          "name": "timezone",
+          "flag": "timezone",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "IANA timezone for sendHour, e.g. Europe/Brussels (default UTC)."
+        },
+        {
+          "name": "frequency",
+          "flag": "frequency",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "\"daily\" (default) | \"every_3_days\" | \"weekly\": refresh cadence when this alert starts the tracking."
+        }
+      ]
+    },
+    {
+      "name": "list-viral-alerts",
+      "key": "list_viral_alerts",
+      "title": "List Viral Alerts",
+      "summary": "See every viral alert on your account: profile, threshold, emails sent, whether the address is confirmed and when it ends. Free.",
+      "description": "Returns your viral alerts (active first, then recently ended, up to 100) with the watched profile, destination email and whether it is confirmed, threshold and score window, post age window, preferred send hour and timezone, emails sent out of the cap, paused or ended reason, expiry and the last email time. Free to call. Use it to audit what is being watched, to check whether a third-party address has confirmed, or to grab an alertId for delete_viral_alert.",
+      "method": "GET",
+      "path": "/api/v1/alerts",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": []
+    },
+    {
+      "name": "delete-viral-alert",
+      "key": "delete_viral_alert",
+      "title": "Delete a Viral Alert",
+      "summary": "End a viral alert. If the alert started the profile's tracking, the refresh crawls stop too. Free.",
+      "description": "Ends a viral alert by alertId (from list_viral_alerts or create_viral_alert). Free. If this alert is what started the profile's tracking and no other active alert of yours needs it, the paid refresh crawls stop as well; tracking you started yourself with track_profile is left untouched. Returns not_found when the alert does not exist or already ended.",
+      "method": "DELETE",
+      "path": "/api/v1/alerts",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "alertId",
+          "flag": "alert-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Alert id to end (query ?alertId= or JSON body)."
+        }
+      ]
+    },
+    {
       "name": "find-related-social-media-profiles",
       "key": "find_related_social_media_profiles",
       "title": "Find Related Social Media Profiles",
       "summary": "Discover creators nobody has indexed yet: seed with a handle, hashtag or search phrase, get back screened, relevance-ranked accounts with reach stats.",
-      "description": "Discover new creators on TikTok, Instagram or YouTube from one seed: a creator handle (walks who they follow on TikTok, who they collaborate with, tag or mention on Instagram), a hashtag, or a search phrase. Every account surfaced is screened live with one provider call (recent posts: how many reached 5k+ views, posting activity, newest post) and judged for topic relevance from its bio and captions, then returned ranked with recommended = qualified and on-topic. Accounts already in the database come back flagged known with their profileId. Nothing is crawled or added automatically: call crawl_profile for the ones you want. Costs 25 credits per call; pass topic to say what related means for your use case. Not for looking up a known creator (use search_profiles).",
+      "description": "Discover new creators on TikTok, Instagram or YouTube from one seed: a creator handle (walks who they follow on TikTok, who they collaborate with, tag or mention on Instagram), a hashtag, or a search phrase. Every account surfaced is screened live with one provider call (recent posts: how many reached 5k+ views, posting activity, newest post) and judged for topic relevance from its bio and captions, then returned ranked with recommended = qualified and on-topic. Accounts already in the database come back flagged known with their profileId. Nothing is crawled or added automatically: call crawl_profile for the ones you want. Priced up to 25 credits per call: 5 base plus 1 per account actually screened, the rest refunded (nothing found = fully refunded). Pass topic to say what related means for your use case. Not for looking up a known creator (use search_profiles).",
       "method": "POST",
       "path": "/api/v1/profiles/related",
       "cost": 25,
