@@ -1,6 +1,6 @@
 {
   "name": "viral-outliers",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Official command-line tool for the Viral Outliers API: search viral outlier posts, transcribe and analyze them, crawl profiles, remix winners into your niche.",
   "license": "MIT",
   "bin": {
