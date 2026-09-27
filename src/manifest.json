@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T02:48:33.601Z",
+  "generatedAt": "2026-09-27T03:57:50.553Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -48,6 +48,14 @@
           "inPath": false,
           "required": false,
           "description": "Scope the search to the creators in one of your watchlists (id from list_watchlists / create_watchlist). Combine with any other filter."
+        },
+        {
+          "name": "categoryId",
+          "flag": "category-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Niche filter: a category id from list_categories. Covers the whole subtree (a Level 2 niche includes its sub-niches). Ignored when handle or watchlistId is set."
         },
         {
           "name": "contentTypes",
@@ -183,6 +191,14 @@
           "inPath": false,
           "required": false,
           "description": "\"tiktok\" | \"instagram\" | \"youtube\"."
+        },
+        {
+          "name": "categoryId",
+          "flag": "category-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Niche filter: a category id from list_categories (covers its subtree). Without a query this returns the niche's top profiles by followers."
         },
         {
           "name": "page",
@@ -467,6 +483,14 @@
           "inPath": false,
           "required": false,
           "description": "\"tiktok\" | \"instagram\" | \"youtube\"."
+        },
+        {
+          "name": "categoryId",
+          "flag": "category-id",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Niche filter: a category id from list_categories (covers its subtree). More precise than a keyword: it scopes to the creators categorized in that niche."
         },
         {
           "name": "timeFrame",
@@ -959,6 +983,37 @@
           "inPath": false,
           "required": false,
           "description": "Max posts to return, clamped 1–100 (default 50)."
+        }
+      ]
+    },
+    {
+      "name": "list-categories",
+      "key": "list_categories",
+      "title": "List Niche Categories",
+      "summary": "The niche taxonomy with profile counts: the ids to pass as categoryId to search_outliers, search_profiles and niche_trends. Free.",
+      "description": "Returns the curated niche taxonomy (up to four levels, e.g. \"Health > Exercise > Gym\") with, for each category, its id, path, level, parent and how many active profiles are categorized under it including its sub-niches. Only categories with at least minProfiles profiles in their subtree are returned (default 5), so every id you get back yields a real result set. Pass a categoryId to search_outliers, search_profiles or niche_trends to scope them to the creators in that niche; the filter always covers the subtree. Free to call and cached, so call it at the start of a session and reuse the ids. Categories are assigned per creator by our categorizer (reviewed by hand for new niches), which makes this filter more precise than a keyword over captions: it catches creators whose captions are hashtag-only or not in English.",
+      "method": "GET",
+      "path": "/api/v1/categories",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "minProfiles",
+          "flag": "min-profiles",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Only niches with at least this many profiles in their subtree (default 5)."
+        },
+        {
+          "name": "maxLevel",
+          "flag": "max-level",
+          "type": "number",
+          "inPath": false,
+          "required": false,
+          "description": "Only niches up to this depth, 1-4 (default 4). Use 2 for a compact picker."
         }
       ]
     },
