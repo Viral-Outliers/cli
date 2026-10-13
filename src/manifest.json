@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-27T03:57:50.553Z",
+  "generatedAt": "2026-10-13T12:25:31.278Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -13,6 +13,7 @@
       "method": "POST",
       "path": "/api/v1/search/content",
       "cost": 1,
+      "costNote": "1 credit per 25 posts returned",
       "isAsync": false,
       "requiresAuth": true,
       "readOnly": true,
@@ -151,7 +152,7 @@
           "type": "number",
           "inPath": false,
           "required": false,
-          "description": "Page number, 1-based."
+          "description": "Page number, 1-based. A search serves its first 1,000 posts; a page past that is refused at no charge, so narrow the filters instead."
         },
         {
           "name": "pageSize",
@@ -159,7 +160,7 @@
           "type": "number",
           "inPath": false,
           "required": false,
-          "description": "Results per page, clamped to 1–100."
+          "description": "Results per page, 1 to 100 (default 25). Billed per 25 posts returned: 25 costs 1 credit, 100 costs 4."
         }
       ]
     },
@@ -172,6 +173,7 @@
       "method": "POST",
       "path": "/api/v1/search/profiles",
       "cost": 1,
+      "costNote": "1 credit per 25 profiles returned",
       "isAsync": false,
       "requiresAuth": true,
       "readOnly": true,
@@ -206,7 +208,7 @@
           "type": "number",
           "inPath": false,
           "required": false,
-          "description": "Page number, 1-based."
+          "description": "Page number, 1-based. A search serves its first 1,000 profiles; a page past that is refused at no charge, so narrow the filters instead."
         },
         {
           "name": "pageSize",
@@ -214,7 +216,7 @@
           "type": "number",
           "inPath": false,
           "required": false,
-          "description": "Results per page, clamped to 1–100."
+          "description": "Results per page, 1 to 100 (default 25). Billed per 25 profiles returned: 25 costs 1 credit, 100 costs 4."
         }
       ]
     },

@@ -29,6 +29,8 @@ export interface CliManifestCommand {
   /** REST path template, e.g. /api/v1/posts/{postId}. */
   path: string;
   cost: number;
+  /** Set when `cost` is not per call (the searches are billed per 25 results returned): the price rule in words. */
+  costNote?: string;
   isAsync: boolean;
   requiresAuth: boolean;
   readOnly: boolean;

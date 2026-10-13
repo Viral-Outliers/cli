@@ -29,6 +29,7 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
+    "version": "node scripts/sync-version.mjs && git add src/version.ts",
     "prepublishOnly": "npm run build && npm test"
   },
   "devDependencies": {

@@ -118,7 +118,7 @@ export function renderCommandHelp(cmd: CliManifestCommand): string {
   const lines: string[] = [];
   lines.push(`${cmd.name}: ${cmd.title}`);
   lines.push(`  ${cmd.method} ${cmd.path}`);
-  lines.push(`  Cost: ${formatCost(cmd.cost)}${cmd.requiresAuth ? '' : '  (no API key needed)'}`);
+  lines.push(`  Cost: ${cmd.costNote ? `${cmd.costNote} (1 credit = ${formatUsd(1)})` : formatCost(cmd.cost)}${cmd.requiresAuth ? '' : '  (no API key needed)'}`);
   lines.push('');
   lines.push(wrap(cmd.description, 80));
   lines.push('');
@@ -154,11 +154,14 @@ export function renderCommandsTable(manifest: CliManifest): string {
   const routeWidth = Math.max(...manifest.commands.map((c) => `${c.method} ${c.path}`.length)) + 2;
 
   const row = (c: CliManifestCommand): string =>
-    `  ${pad(c.name, nameWidth)}${pad(c.cost > 0 ? `${c.cost} cr` : 'free', 7)}${pad(`${c.method} ${c.path}`, routeWidth)}${truncate(c.summary, 70)}`;
+    `  ${pad(c.name, nameWidth)}${pad(c.cost > 0 ? `${c.cost} cr${c.costNote ? '*' : ''}` : 'free', 7)}${pad(`${c.method} ${c.path}`, routeWidth)}${truncate(c.summary, 70)}`;
 
   const lines: string[] = [];
   lines.push('Billable commands (credits per call)');
   for (const c of billable) lines.push(row(c));
+  // A starred price is not per call: the command's own help has the rule.
+  const starred = billable.filter((c) => c.costNote);
+  if (starred.length > 0) lines.push(`  * billed by results, not by call: ${starred.map((c) => `${c.name} = ${c.costNote}`).join('; ')}`);
   lines.push('');
   lines.push('Free commands');
   for (const c of free) lines.push(row(c));
