@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T12:25:31.278Z",
+  "generatedAt": "2026-10-17T02:42:43.829Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -64,7 +64,7 @@
           "type": "string[]",
           "inPath": false,
           "required": false,
-          "description": "Platform content types (e.g. reel, short, slideshow)."
+          "description": "Content types to include, case-insensitive. TikTok: Video, Photo (slideshow). Instagram: Video (reel), Image, Carousel. YouTube: Video, Short, Live."
         },
         {
           "name": "minOutlierScore",
