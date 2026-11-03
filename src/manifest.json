@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T03:11:42.975Z",
+  "generatedAt": "2026-11-01T11:50:42.780Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -403,7 +403,7 @@
       "key": "get_credit_balance",
       "title": "Check Credit Balance",
       "summary": "Free endpoint returning your current credit balance.",
-      "description": "Returns the current API credit balance for the authenticated account, plus the automatic top-up state of the account (autoTopup: configured, enabled, pack, monthly charge cap and count, last error) so an agent can tell whether a zero balance is a hard stop or refills itself on the next billable call. Free to call. Agents should check the balance before starting large batch jobs and surface \"insufficient_credits\" errors to the user with a link to top up.",
+      "description": "Returns the current API credit balance for the authenticated account, plus the automatic top-up state of the account (autoTopup: configured, enabled, pack, monthly charge cap and count, last error) so an agent can tell whether a zero balance is a hard stop or refills itself on the next billable call, and expiring: the next dates on which part of the balance expires, with the credits on each. Free to call. Agents should check the balance before starting large batch jobs and surface \"insufficient_credits\" errors to the user with a link to top up.",
       "method": "GET",
       "path": "/api/v1/credits",
       "cost": 0,
