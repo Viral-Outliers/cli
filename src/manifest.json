@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T14:01:43.154Z",
+  "generatedAt": "2026-11-07T14:12:00.010Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -1146,8 +1146,8 @@
       "name": "delete-project",
       "key": "delete_project",
       "title": "Delete a Project",
-      "summary": "Delete a project created through the API, with its saves. Free.",
-      "description": "Deletes a project that was created through the API (create_project), together with its saved posts. Projects the user made in the web app cannot be deleted here, so an agent never removes a hand-curated collection; remove single posts with remove_project_posts instead. A project with sub-projects is refused. Free.",
+      "summary": "Delete one of your projects and its saved posts. Free.",
+      "description": "Deletes one of your projects, whether it was made in the web app or through the API, together with its saved posts (the posts themselves stay in the database). A project that holds sub-projects is refused; delete those first. Free.",
       "method": "DELETE",
       "path": "/api/v1/projects",
       "cost": 0,
@@ -1161,7 +1161,7 @@
           "type": "string",
           "inPath": false,
           "required": true,
-          "description": "Id of a project created through the API (query string or JSON body)."
+          "description": "Project id (query string or JSON body)."
         }
       ]
     },
