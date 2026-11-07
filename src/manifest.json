@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T13:22:42.472Z",
+  "generatedAt": "2026-11-07T14:01:43.154Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -1038,6 +1038,130 @@
           "inPath": true,
           "required": true,
           "description": "Project id from list_projects."
+        }
+      ]
+    },
+    {
+      "name": "create-project",
+      "key": "create_project",
+      "title": "Create a Project",
+      "summary": "Create a project to save posts into; it also shows up in the web app. Free, unlimited.",
+      "description": "Creates an empty project with a name (1-80 characters) and optional notes, and returns its projectId and a link to it in the web app. Projects are free and unlimited on every plan. Fill it with add_project_posts.",
+      "method": "POST",
+      "path": "/api/v1/projects",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "name",
+          "flag": "name",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Project name, 1-80 characters."
+        },
+        {
+          "name": "notes",
+          "flag": "notes",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "Optional notes, up to 500 characters."
+        }
+      ]
+    },
+    {
+      "name": "add-project-posts",
+      "key": "add_project_posts",
+      "title": "Save Posts to a Project",
+      "summary": "Save up to 25 posts per call into a project, by post id or public link. Free.",
+      "description": "Saves posts into one of your projects. Pass postIds (from search_outliers, get_trending_outliers or get_project) and/or urls (public TikTok, Instagram or YouTube post links); up to 25 per call. A link resolves only when we already have the post (crawl_profile its creator first if not); anything unresolved comes back in notFound with the reason. Posts already in the project are reported in alreadyPresent, not duplicated. Free.",
+      "method": "POST",
+      "path": "/api/v1/projects/posts",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "projectId",
+          "flag": "project-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Target project id."
+        },
+        {
+          "name": "postIds",
+          "flag": "post-ids",
+          "type": "string[]",
+          "inPath": false,
+          "required": false,
+          "description": "Internal post ids to save."
+        },
+        {
+          "name": "urls",
+          "flag": "urls",
+          "type": "string[]",
+          "inPath": false,
+          "required": false,
+          "description": "Public post links to save. postIds + urls ≤ 25 per call."
+        }
+      ]
+    },
+    {
+      "name": "remove-project-posts",
+      "key": "remove_project_posts",
+      "title": "Remove Posts from a Project",
+      "summary": "Remove saved posts from a project by post id. Free.",
+      "description": "Removes posts from one of your projects (web-app or API-created) by postId and returns how many were removed and the new postCount. The posts themselves stay in the database; only the save is undone. Free.",
+      "method": "DELETE",
+      "path": "/api/v1/projects/posts",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "projectId",
+          "flag": "project-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Project id."
+        },
+        {
+          "name": "postIds",
+          "flag": "post-ids",
+          "type": "string[]",
+          "inPath": false,
+          "required": true,
+          "description": "Post ids to remove (from get_project)."
+        }
+      ]
+    },
+    {
+      "name": "delete-project",
+      "key": "delete_project",
+      "title": "Delete a Project",
+      "summary": "Delete a project created through the API, with its saves. Free.",
+      "description": "Deletes a project that was created through the API (create_project), together with its saved posts. Projects the user made in the web app cannot be deleted here, so an agent never removes a hand-curated collection; remove single posts with remove_project_posts instead. A project with sub-projects is refused. Free.",
+      "method": "DELETE",
+      "path": "/api/v1/projects",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": false,
+      "params": [
+        {
+          "name": "projectId",
+          "flag": "project-id",
+          "type": "string",
+          "inPath": false,
+          "required": true,
+          "description": "Id of a project created through the API (query string or JSON body)."
         }
       ]
     },
