@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-01T11:50:42.780Z",
+  "generatedAt": "2026-11-07T13:22:42.472Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -1001,6 +1001,43 @@
           "inPath": false,
           "required": true,
           "description": "Watchlist id (query string or JSON body)."
+        }
+      ]
+    },
+    {
+      "name": "list-projects",
+      "key": "list_projects",
+      "title": "List Your Projects",
+      "summary": "All your projects (posts you saved in the web app) with their ids and post counts. Free.",
+      "description": "Returns every project on the account with its projectId, name, notes, post count, parent project (for subfolders), a link to the project in the web app and last-updated time. Projects are where the user saves hand-picked posts in the web app. Free to call. Use it to find the project the user means, then get_project for its posts.",
+      "method": "GET",
+      "path": "/api/v1/projects",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": []
+    },
+    {
+      "name": "get-project",
+      "key": "get_project",
+      "title": "Get a Project and Its Saved Posts",
+      "summary": "One project with the posts saved in it: post ids, links, stats, outlier scores and the user's notes. Free.",
+      "description": "Returns a single project by projectId with every saved post, newest first: postId, platform, creator handle, post link, thumbnail, title, a caption excerpt, content type, posting date, views, likes, comments, engagement rate, all-time outlier score, the note the user wrote when saving it, and whether the platform has since removed the post. Up to 500 posts (truncated says when there are more). Free to call. Pass a postId to request_transcript, request_visual_analysis or remix_post.",
+      "method": "GET",
+      "path": "/api/v1/projects/{projectId}",
+      "cost": 0,
+      "isAsync": false,
+      "requiresAuth": true,
+      "readOnly": true,
+      "params": [
+        {
+          "name": "projectId",
+          "flag": "project-id",
+          "type": "string",
+          "inPath": true,
+          "required": true,
+          "description": "Project id from list_projects."
         }
       ]
     },
