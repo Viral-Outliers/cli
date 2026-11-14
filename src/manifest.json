@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-07T14:12:00.010Z",
+  "generatedAt": "2026-11-14T04:37:52.215Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -318,7 +318,7 @@
       "key": "request_visual_analysis",
       "title": "Analyze a Post Visually",
       "summary": "Queue AI scene-by-scene visual analysis (on-screen text, shot breakdown, editing style) for any tracked post; poll the job, then fetch via get_post.",
-      "description": "Queues a structured visual analysis for a post: for a video, a scene-by-scene breakdown (per-scene timing, scene type, on-screen text, visual elements and a recreation note) plus an overall-style summary (color palette, text style, editing pace); for an image slideshow, per-slide text and visual descriptions. Accepts a public post URL or an internal post id. Asynchronous: returns a job reference to poll with get_job_status; once complete the analysis is attached to get_post responses (includeVisualAnalysis). Credits are charged on queueing and automatically refunded if the job fails. This is the visual twin of request_transcript.",
+      "description": "Queues a structured visual analysis for a post: for a video, a scene-by-scene breakdown (per-scene timing, scene type, on-screen text, visual elements and a recreation note) plus an overall-style summary (color palette, text style, editing pace); for an image slideshow, carousel or single photo, per-slide text and visual descriptions. Accepts a public post URL or an internal post id. Asynchronous: returns a job reference to poll with get_job_status; once complete the analysis is attached to get_post responses (includeVisualAnalysis). Credits are charged on queueing and automatically refunded if the job fails or ends without an analysis (status unavailable, for example no usable media). This is the visual twin of request_transcript.",
       "method": "POST",
       "path": "/api/v1/visual-analysis",
       "cost": 10,
