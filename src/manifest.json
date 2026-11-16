@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T13:17:51.351Z",
+  "generatedAt": "2026-11-16T14:10:49.909Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -539,8 +539,8 @@
       "name": "download-post-media",
       "key": "download_post_media",
       "title": "Download Post Media",
-      "summary": "Get direct media URLs (video or slideshow images) for a tracked post; fetched on demand when not stored.",
-      "description": "Returns direct media URLs for a tracked post, the video file, or slideshow images with positions. Accepts a public post URL or an internal post id. When media is not stored yet it queues an on-demand fetch and returns a jobRef to poll (typically ready within ~90 seconds); call again once complete. Platform CDN URLs can expire, so download promptly. YouTube currently returns the thumbnail image. You are responsible for using downloaded media in line with the platforms' terms and applicable law.",
+      "summary": "Get direct media URLs (video or slideshow images) for any public post; fetched on demand when not stored.",
+      "description": "Returns direct media URLs for a post, the video file, or slideshow images with positions. Accepts a public post URL or an internal post id. A post URL we do not have yet (a new post, or a profile nobody crawled) is fetched on its own, no crawl_profile needed. When media or the post is not stored yet it queues an on-demand fetch and returns a jobRef to poll (typically ready within ~90 seconds); call again once complete. Platform CDN URLs can expire, so download promptly. YouTube currently returns the thumbnail image. You are responsible for using downloaded media in line with the platforms' terms and applicable law.",
       "method": "POST",
       "path": "/api/v1/posts/media",
       "cost": 3,
