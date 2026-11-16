@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-14T04:37:52.215Z",
+  "generatedAt": "2026-11-16T13:17:51.351Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -349,7 +349,7 @@
       "key": "crawl_profile",
       "title": "Crawl a New Profile",
       "summary": "Add any public TikTok, Instagram or YouTube profile to the tracked database on demand.",
-      "description": "Submits a public profile for crawling: profile metadata plus its recent posts, stats and thumbnails, after which it stays tracked and appears in searches. Asynchronous. Returns a job reference for get_job_status. If the profile is already tracked, this returns immediately without charging a full crawl. Credits are refunded automatically when a crawl fails.",
+      "description": "Submits a public profile for crawling: profile metadata plus its recent posts, stats and thumbnails, after which it stays in the database and appears in searches. New posts are added for free by our regular refresh: about every 30 days, or every 3 days once the profile is in a watchlist (add_watchlist_profiles). For a daily refresh, use track_profile. Asynchronous. Returns a job reference for get_job_status. If the profile is already tracked, this returns immediately without charging a full crawl. Credits are refunded automatically when a crawl fails.",
       "method": "POST",
       "path": "/api/v1/crawls",
       "cost": 40,
