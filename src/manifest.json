@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-18T02:23:05.961Z",
+  "generatedAt": "2026-11-18T04:34:51.099Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -756,7 +756,7 @@
       "key": "track_profile",
       "title": "Monitor a Profile",
       "summary": "Keep a TikTok, Instagram or YouTube profile fresh on a schedule (daily, every 3 days or weekly) and pull its new posts.",
-      "description": "Starts monitoring a profile so it is automatically re-crawled at a cadence you choose (daily, every_3_days or weekly), keeping its posts and stats fresh without you polling crawl_profile. Identify the profile by profileId, platform+handle, or a public profile/post URL. Managing monitoring is free; each scheduled refresh crawl costs credits (10 per refresh) and monitoring pauses itself if your balance runs out, then resumes when you top up. The profile must already be in the database; crawl_profile it first if it is not. Calling again on an already-monitored profile just updates the cadence. Pull the new posts with get_tracked_updates.",
+      "description": "Starts monitoring a profile so it is automatically re-crawled at a cadence you choose (daily, every_3_days or weekly), keeping its posts and stats fresh without you polling crawl_profile. Identify the profile by profileId, platform+handle, or a public profile/post URL. Managing monitoring is free; each scheduled refresh crawl costs credits (10 per refresh) and monitoring pauses itself if your balance runs out, then resumes when you top up. The profile must already be in the database; crawl_profile it first if it is not. The first refresh runs within minutes, or at refreshAtUtc (\"HH:MM\" UTC) when you pass it; after that each refresh is due exactly one interval after the previous scheduled time (nextCrawlDueAt in the answer and in list_tracked_profiles). Calling again on an already-monitored profile updates the cadence and keeps the refresh time, unless you pass refreshAtUtc to move it. Pull the new posts with get_tracked_updates.",
       "method": "POST",
       "path": "/api/v1/tracking",
       "cost": 0,
@@ -803,6 +803,14 @@
           "inPath": false,
           "required": false,
           "description": "\"daily\" | \"every_3_days\" | \"weekly\" (default weekly)."
+        },
+        {
+          "name": "refreshAtUtc",
+          "flag": "refresh-at-utc",
+          "type": "string",
+          "inPath": false,
+          "required": false,
+          "description": "\"HH:MM\" (24-hour, UTC): run the refresh at this time of day. On a new profile the first refresh waits for it; on a monitored one it moves the next refresh there (which can bring it forward once). Omit to keep the current time."
         }
       ]
     },
@@ -834,7 +842,7 @@
       "key": "list_tracked_profiles",
       "title": "List Monitored Profiles",
       "summary": "See every profile you are monitoring, its cadence, next refresh time and whether it is paused. Free.",
-      "description": "Returns every profile you are currently monitoring, with its handle, platform, follower count, refresh cadence, next scheduled crawl time, when it was last checked for updates, and any paused reason (e.g. paused for insufficient credits). Free to call. Use it to audit what is being refreshed and what it is costing, or to grab a profileId for untrack_profile.",
+      "description": "Returns every profile you are currently monitoring, with its handle, platform, follower count, refresh cadence, next scheduled crawl time (nextCrawlDueAt), when its posts were last crawled (lastRefreshedAt), your get_tracked_updates cursor (lastCheckedAt: it moves when you call get_tracked_updates, not when a refresh runs), and any paused reason (e.g. paused for insufficient credits). Free to call. Use it to audit what is being refreshed and what it is costing, or to grab a profileId for untrack_profile.",
       "method": "GET",
       "path": "/api/v1/tracking",
       "cost": 0,
@@ -1184,7 +1192,7 @@
           "type": "number",
           "inPath": false,
           "required": false,
-          "description": "Max posts to return, clamped 1–100 (default 50)."
+          "description": "Max posts to return, clamped 1–100 (default 50). A page never splits one crawl batch, so it can hold fewer, or (when a single batch is bigger than limit) more."
         }
       ]
     },
