@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-16T14:10:49.909Z",
+  "generatedAt": "2026-11-18T02:23:05.961Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -1045,8 +1045,8 @@
       "name": "create-project",
       "key": "create_project",
       "title": "Create a Project",
-      "summary": "Create a project to save posts into; it also shows up in the web app. Free, unlimited.",
-      "description": "Creates an empty project with a name (1-80 characters) and optional notes, and returns its projectId and a link to it in the web app. Projects are free and unlimited on every plan. Fill it with add_project_posts.",
+      "summary": "Create a project to save posts into; it also shows up in the web app. Free.",
+      "description": "Creates an empty project with a name (1-80 characters) and optional notes, and returns its projectId and a link to it in the web app. Projects are free on every plan, with a generous fair-use cap on how many you can have that grows with your payment history; an over-limit call says so, and info@viraloutliers.com can raise it. Fill it with add_project_posts.",
       "method": "POST",
       "path": "/api/v1/projects",
       "cost": 0,
@@ -1077,7 +1077,7 @@
       "key": "add_project_posts",
       "title": "Save Posts to a Project",
       "summary": "Save up to 25 posts per call into a project, by post id or public link. Free.",
-      "description": "Saves posts into one of your projects. Pass postIds (from search_outliers, get_trending_outliers or get_project) and/or urls (public TikTok, Instagram or YouTube post links); up to 25 per call. A link resolves only when we already have the post (crawl_profile its creator first if not); anything unresolved comes back in notFound with the reason. Posts already in the project are reported in alreadyPresent, not duplicated. Free.",
+      "description": "Saves posts into one of your projects. Pass postIds (from search_outliers, get_trending_outliers or get_project) and/or urls (public TikTok, Instagram or YouTube post links); up to 25 per call. A link resolves only when we already have the post (crawl_profile its creator first if not); anything unresolved comes back in notFound with the reason. Posts already in the project are reported in alreadyPresent, not duplicated. A project holds a fair-use maximum of posts that grows with your payment history; a call that would go past it saves nothing and says so (info@viraloutliers.com can raise it). Free.",
       "method": "POST",
       "path": "/api/v1/projects/posts",
       "cost": 0,
