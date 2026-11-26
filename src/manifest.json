@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-26T03:55:22.960Z",
+  "generatedAt": "2026-11-26T05:26:31.677Z",
   "apiBase": "https://viraloutliers.com",
   "envVar": "VIRAL_OUTLIERS_API_KEY",
   "commands": [
@@ -318,11 +318,11 @@
       "key": "request_visual_analysis",
       "title": "Analyze a Post Visually",
       "summary": "Queue AI scene-by-scene visual analysis (on-screen text, shot breakdown, editing style) for any post, also one we do not have yet (fetched first); poll the job, then fetch via get_post.",
-      "description": "Queues a structured visual analysis for a post: for a video, a scene-by-scene breakdown (per-scene timing, scene type, on-screen text, visual elements and a recreation note) plus an overall-style summary (color palette, text style, editing pace); for an image slideshow, carousel or single photo, per-slide text and visual descriptions. Accepts a public post URL or an internal post id. A link to a post we do not have yet is fetched first, in the same job and for the same price; the finished job's output names the postId. 10 credits per post; videos longer than 4 min are not analysed. YouTube videos and Shorts are not analysed yet (we can reach their cover image, not the video), and are refused with no charge. Asynchronous: returns a job reference to poll with get_job_status; once complete the analysis is attached to get_post responses (includeVisualAnalysis). Credits are charged on queueing and automatically refunded if the job fails or ends without an analysis (status unavailable, for example no usable media). This is the visual twin of request_transcript.",
+      "description": "Queues a structured visual analysis for a post: for a video, a scene-by-scene breakdown (per-scene timing, scene type, on-screen text, visual elements and a recreation note) plus an overall-style summary (color palette, text style, editing pace); for an image slideshow, carousel or single photo, per-slide text and visual descriptions. Accepts a public post URL or an internal post id. A link to a post we do not have yet is fetched first, in the same job and for the same price; the finished job's output names the postId. Priced by video length: 10 credits for a video up to 4 min (or an image post), 20 for 4 to 10 min, 30 for 10 to 15 min; longer videos are not analysed. Asynchronous: returns a job reference to poll with get_job_status; once complete the analysis is attached to get_post responses (includeVisualAnalysis). Credits are charged on queueing and automatically refunded if the job fails or ends without an analysis (status unavailable, for example no usable media). This is the visual twin of request_transcript.",
       "method": "POST",
       "path": "/api/v1/visual-analysis",
       "cost": 10,
-      "costNote": "10 credits per video up to 4 min or image post",
+      "costNote": "10 credits per video up to 4 min or image post (20 credits up to 10 min, 30 up to 15 min)",
       "isAsync": true,
       "requiresAuth": true,
       "readOnly": false,
